@@ -4,24 +4,18 @@ A simple API demonstrating Vertical Slice Architecture in .NET 10, built for edu
 
 ---
 
-## Developed by
-
-**Elvin Manuel R. Luces, MIT**
-
----
-
 ## Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| Framework | .NET 10 |
-| Architecture | Vertical Slice + Clean Architecture |
-| ORM | EF Core 10 |
-| Database | InMemory (for demo) |
-| Validation | FluentValidation |
-| CQRS | Custom ICommand/IQuery (No MediatR) |
-| API Docs | Scalar (No Swashbuckle) |
-| Result Pattern | Domain.Common.Result\<T\> |
+| Component      | Technology                          |
+| -------------- | ----------------------------------- |
+| Framework      | .NET 10                             |
+| Architecture   | Vertical Slice + Clean Architecture |
+| ORM            | EF Core 10                          |
+| Database       | InMemory (for demo)                 |
+| Validation     | FluentValidation                    |
+| CQRS           | Custom ICommand/IQuery (No MediatR) |
+| API Docs       | Scalar (No Swashbuckle)             |
+| Result Pattern | Domain.Common.Result\<T\>           |
 
 ---
 
@@ -108,16 +102,19 @@ VerticalSlice/
 ### Installation
 
 1. Clone the repository or navigate to the project folder:
+
    ```bash
    cd VerticalSlice
    ```
 
 2. Restore dependencies:
+
    ```bash
    dotnet restore
    ```
 
 3. Run the API:
+
    ```bash
    dotnet run --project Api
    ```
@@ -133,24 +130,24 @@ VerticalSlice/
 
 ### Students
 
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| POST | `/api/students` | Create a new student | `{ firstName, lastName, email, dateOfBirth }` |
-| GET | `/api/students/{id}` | Get student by ID | — |
+| Method | Endpoint             | Description          | Request Body                                  |
+| ------ | -------------------- | -------------------- | --------------------------------------------- |
+| POST   | `/api/students`      | Create a new student | `{ firstName, lastName, email, dateOfBirth }` |
+| GET    | `/api/students/{id}` | Get student by ID    | —                                             |
 
 ### Courses
 
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| POST | `/api/courses` | Create a new course | `{ title, code, credits }` |
-| GET | `/api/courses/{id}` | Get course by ID | — |
+| Method | Endpoint            | Description         | Request Body               |
+| ------ | ------------------- | ------------------- | -------------------------- |
+| POST   | `/api/courses`      | Create a new course | `{ title, code, credits }` |
+| GET    | `/api/courses/{id}` | Get course by ID    | —                          |
 
 ### Admissions
 
-| Method | Endpoint | Description | Request Body |
-|--------|----------|-------------|--------------|
-| POST | `/api/admissions` | Create admission with courses | `{ studentId, academicYear, courseIds[] }` |
-| GET | `/api/admissions/{id}` | Get admission by ID with courses | — |
+| Method | Endpoint               | Description                      | Request Body                               |
+| ------ | ---------------------- | -------------------------------- | ------------------------------------------ |
+| POST   | `/api/admissions`      | Create admission with courses    | `{ studentId, academicYear, courseIds[] }` |
+| GET    | `/api/admissions/{id}` | Get admission by ID with courses | —                                          |
 
 ---
 
@@ -208,10 +205,13 @@ POST /api/admissions
 ## Key Concepts
 
 ### Vertical Slice Architecture
+
 Code is organized by feature (CreateStudent, GetCourseById), not by technical layer (Controllers, Services, Repositories). Each feature is self-contained in its own folder.
 
 ### Result Pattern
+
 Instead of throwing exceptions, we return Result objects:
+
 ```csharp
 // Success
 return Result<T>.Success(response);
@@ -221,14 +221,18 @@ return Result<T>.Failure(Error.NotFound("Code", "Message"));
 ```
 
 ### Custom CQRS
+
 Simple interfaces without external dependencies:
+
 - `ICommand<TResponse>` — for write operations
 - `IQuery<TResponse>` — for read operations
 - `ICommandHandler<TCommand, TResponse>` — handles commands
 - `IQueryHandler<TQuery, TResponse>` — handles queries
 
 ### FluentValidation
+
 Validates input before it reaches the handler:
+
 ```csharp
 public sealed class CreateStudentValidator : AbstractValidator<CreateStudentCommand>
 {
@@ -247,10 +251,12 @@ public sealed class CreateStudentValidator : AbstractValidator<CreateStudentComm
 The API automatically seeds the following data on startup:
 
 **Students:**
+
 - John Doe (john.doe@example.com)
 - Jane Smith (jane.smith@example.com)
 
 **Courses:**
+
 - Introduction to Programming (CS101, 3 credits)
 - Data Structures (CS201, 4 credits)
 - Database Systems (CS301, 3 credits)
